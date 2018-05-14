@@ -65,11 +65,11 @@ export default class FiltersScreen extends Component {
 	}
 
 	updateAge = (index, age) => {
-		this.setState({ageIndex: index, age: age.toLowerCase() })
+		this.setState({ageIndex: index, age })
 	}
 
 	updateGender = (gender) => {
-		this.setState({ gender: gender.toLowerCase() })
+		this.setState({ gender })
 	}
 
 	search = () => {
@@ -80,7 +80,7 @@ export default class FiltersScreen extends Component {
 			animal = '';
 		}
 
-		if (age === 'any') {
+		if (age === 'Any') {
 			age = ''
 		}
 
@@ -123,16 +123,13 @@ export default class FiltersScreen extends Component {
 						gender={this.state.gender}
 						select={this.updateGender}
 					/>
-					<Text>{this.state.gender}</Text>
 				<View style={styles.buttonContainer}>
 					<Button
 					  rounded
 					  iconRight={{name: 'times-circle', type: 'font-awesome'}}
 					  textStyle={{fontWeight: "500"}}
 					  buttonStyle={styles.cancelButton}
-						title="CANCEL"
-						onPress={this.search}
-					/>
+						title="CANCEL"					/>
 					<Button
 					  rounded
 					  iconRight={{name: 'search', color: '#23d69d'}}

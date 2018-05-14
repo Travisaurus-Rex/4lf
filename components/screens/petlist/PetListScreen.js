@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, Button, Image, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import { url } from '../../../config.js';
+
+import { PetList } from './PetList.js';
 
 export default class PetListScreen extends React.Component {
 
@@ -30,10 +32,10 @@ export default class PetListScreen extends React.Component {
     let { navigation } = this.props;
 
     let data = {
-        zipCode: navigation.getParam('zipCode', null),
-        animal: navigation.getParam('animal', null),
-        age: navigation.getParam('age', null),
-        gender: navigation.getParam('gender', null),
+        zipCode: navigation.getParam('zipCode', ''),
+        animal:  navigation.getParam('animal', ''),
+        age:     navigation.getParam('age', ''),
+        gender:  navigation.getParam('gender', ''),
     };
 
     fetch(`${url}/pet/find`, {
@@ -45,34 +47,8 @@ export default class PetListScreen extends React.Component {
       'Content-Type': 'application/json'
     }
     }).then( res => res.json() )
-      .then( res => this.formatPet(res))
-      .catch( err => console.error(err));
-  }
-
-  formatPet = (pets) => {
-
-    var {width: w} = Dimensions.get('window');
-
-    w -= 32;
-
-    let pet, image;
-
-    if (Array.isArray(pets)) {
-      pet = pets[1];
-    }
-
-    let jsx = (
-      <View>
-        <Text>Name: {pet.name}</Text>
-        <Image source={{uri: pet.images[0]}} style={{ flex: 1, width: w, height: w}} resizeMode="cover"/>
-        <Text>{pet.description}</Text>
-        <Text>{pet.contact.city}, {pet.contact.state}</Text>
-        <Text>{pet.animal}</Text>
-        <Text>Mix: {pet.mix}</Text>
-      </View>
-    );
-
-    this.setState({pet: jsx});
+      .then( res => this.setState( {pets: res} ) )
+      .catch( err => console.error( err ) );
   }
 
   componentWillUnmount = () => {
@@ -83,8 +59,8 @@ export default class PetListScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-      { !!this.state.pet &&
-        <View style={{margin: 16}}>{this.state.pet}</View>
+      { !!this.state.pets &&
+        <PetList pets={ this.state.pets }></PetList>
       }
       </View>
     );
@@ -94,8 +70,6 @@ export default class PetListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#fff'
   },
 });

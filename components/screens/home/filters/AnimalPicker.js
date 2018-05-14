@@ -4,7 +4,7 @@ import { ButtonGroup } from 'react-native-elements';
 
 export const AnimalPicker = (props) => {
 
-	const buttons = ['Any', 'Dog', 'Cat', 'Bird', 'Other'];
+	const buttons = ['Any', 'Dog', 'Cat', 'Bird', 'Reptile', 'Horse'];
 
 	return (
 		<View style={styles.view}>

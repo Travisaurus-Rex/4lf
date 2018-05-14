@@ -21,8 +21,8 @@ export const GenderPicker = (props) => {
 				checkedIcon="radio-button-checked"
 				uncheckedColor="#fff"
 				checkedColor="#fff"
-				checked={props.gender == 'male' ? true : false}
-				onPress={() => checkCurrentSelection('male')}
+				checked={props.gender == 'M' ? true : false}
+				onPress={() => checkCurrentSelection('M')}
 				textStyle={{color: '#fff'}}
 				title="Male"
 			/>
@@ -33,8 +33,8 @@ export const GenderPicker = (props) => {
 				checkedIcon="radio-button-checked"
 				uncheckedColor="#fff"
 				checkedColor="#fff"
-				checked={props.gender == 'female' ? true : false}
-				onPress={() => checkCurrentSelection('female')}
+				checked={props.gender == 'F' ? true : false}
+				onPress={() => checkCurrentSelection('F')}
 				textStyle={{color: '#fff'}}
 				title="Female"
 			/>
