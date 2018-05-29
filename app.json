@@ -1,5 +1,12 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "sdkVersion": "27.0.0",
+    "name": "4 Legged Friends",
+    "description": "Quick and easy way to find adoptable pets in your area.",
+    "slug": "4-legged-friends",
+    "icon": "./assets/images/icon/icon.png",
+    "version": "1.0.0",
+    "platforms": ["android"],
+    "orientation": "portrait"
   }
 }

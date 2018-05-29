@@ -8,10 +8,7 @@ export const PetTile = (props) => {
 
 	if (props.image) {
 		image = { uri: props.image};
-
-	} else {
-		image = require('../../../assets/images/no_pic.png');
-	}	
+	}
 
 	return (
 		<TouchableOpacity

@@ -7,7 +7,7 @@ export const AnimalPicker = (props) => {
 	const buttons = ['Any', 'Dog', 'Cat', 'Bird', 'Reptile', 'Horse'];
 
 	return (
-		<View style={styles.view}>
+		<View>
 			<Text style={styles.label}>Type of animal</Text>
 			<ButtonGroup
 				innerBorderStyle={{ color: '#fff', width: 1 }}
@@ -23,9 +23,6 @@ export const AnimalPicker = (props) => {
 }
 
 const styles = StyleSheet.create({
-	view: {
-		marginBottom: 24,
-	},
 	label: {
 		alignSelf: 'flex-start',
 		color: '#fff',

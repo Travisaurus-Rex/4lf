@@ -5,6 +5,7 @@ import HomeScreen from './components/screens/home/HomeScreen.js';
 import PetListScreen from './components/screens/petlist/PetListScreen.js';
 import FiltersScreen from './components/screens/home/filters/FiltersScreen.js';
 import PetInfoScreen from './components/screens/petinfo/PetInfoScreen.js';
+import { ImageViewer } from './components/screens/petinfo/ImageViewer.js';
 
 const RootStack = StackNavigator(
   {
@@ -19,6 +20,9 @@ const RootStack = StackNavigator(
     },
     PetInfo: {
       screen: PetInfoScreen
+    },
+    ImageViewer: {
+      screen: ImageViewer
     }
   }, 
   {

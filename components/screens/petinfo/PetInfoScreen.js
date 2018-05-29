@@ -5,6 +5,7 @@ import { StackNavigator } from 'react-navigation';
 import { LinearGradient } from 'expo';
 import { TextGroup } from './TextGroup.js';
 import { ContactInfo } from './ContactInfo.js';
+import { ImageViewer } from './ImageViewer.js';
 
 export default class PetInfoScreen extends Component {
 
@@ -18,7 +19,8 @@ export default class PetInfoScreen extends Component {
 		super(props);
 
 		this.state = {
-			animal: this.props.navigation.getParam('selectedPet', null)
+			animal: this.props.navigation.getParam('selectedPet', null),
+			viewPhoto: false
 		};
 	}
 
@@ -70,6 +72,12 @@ export default class PetInfoScreen extends Component {
 
 	}
 
+	viewPhoto = () => {
+		this.props.navigation.navigate('ImageViewer', {
+			images: this.state.animal.images
+		})
+	}
+
 	render() {
 
 		let { width: w } = Dimensions.get('window');
@@ -90,6 +98,7 @@ export default class PetInfoScreen extends Component {
 						}}
 						xlarge
 						rounded
+						onPress={this.viewPhoto}
 					/>
 					<View style={styles.horizontal}>
 						<Text style={styles.name}>{this.capitalize(animal.name)}</Text>
@@ -123,7 +132,7 @@ export default class PetInfoScreen extends Component {
 						{animal.description}
 					</TextGroup>
 				}
-				</View>
+				</View>		
 			</ScrollView>
 		)
 	}
