@@ -7,12 +7,11 @@ export const SearchOrFilter = (props) => {
     <View style={styles.columnContainerBorder}>
       <Button
         iconRight={{name: 'settings'}}
-        rounded
         textStyle={{
           fontWeight: "500"
         }}
         buttonStyle={{
-          width: 150,
+          width: 130,
           backgroundColor: 'transparent',
           borderWidth: 1,
           borderColor: '#fff',
@@ -22,13 +21,12 @@ export const SearchOrFilter = (props) => {
       />
       <Button
         iconRight={{name: 'search', color: '#23d69d'}}
-        rounded
         textStyle={{
           color: '#23d69d',
           fontWeight: "500"
         }}
         buttonStyle={{
-          width: 150,
+          width: 130,
           backgroundColor: '#fff',
         }}
         title="SEARCH"

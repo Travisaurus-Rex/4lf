@@ -10,6 +10,7 @@ import { LinearGradient } from 'expo';
 
 import { Logo } from '../../shared/Logo.js';
 import { Location } from './Location.js';
+import { PetsOrShelters } from './PetsOrShelters.js';
 import { SearchOrFilter } from './SearchOrFilter.js';
 
 export default class HomeScreen extends React.Component {
@@ -23,7 +24,8 @@ export default class HomeScreen extends React.Component {
     this.state = { 
       zipCodeSubmitted: false,
       zipCode: 0,
-      zipCodeValid: false
+      zipCodeValid: false,
+      searchForPets: true,
     };
   }
 
@@ -47,6 +49,10 @@ export default class HomeScreen extends React.Component {
     } else {
       this.setState({ zipCodeValid: false})
     }
+  }
+
+  updateSearchParams = ( params ) => {
+    this.setState({ searchForPets: params })
   }
 
   search = () => {
@@ -94,6 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 10
   },
   smallText: {
     fontSize: 12,

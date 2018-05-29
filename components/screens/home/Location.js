@@ -9,7 +9,6 @@ export const Location = (props) => {
 			<LocationInput 
 				{...props}
 			/>
-			<LocationDetect />
     </View>
 	)
 } 
@@ -20,6 +19,6 @@ const styles = StyleSheet.create({
     flex: 0,
     flexDirection: 'row',
     alignItems: 'center', 
-    justifyContent: 'space-between', 
+    justifyContent: 'center', 
   },
 })

@@ -2,34 +2,42 @@ import React from 'react';
 import { ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { PetTile } from './PetTile.js';
 
-let { width } = Dimensions.get('window');
+export const PetList = ( props ) => {
 
-export const PetList = ({ pets }) => {
+	let { width } = Dimensions.get('window');
+	let space     = 2;
+	let w         = width / 2 - space;
 
-	let space = 2;
+	let tiles = props.pets.map((item, index) => {
 
-	let w = width / 2 - space;
+		if (item.images.length > 0) {
+			return (
+				<PetTile 
+					key={item.key}
+					size={w} 
+					image={item.images[0]} 
+					space={space}
+					clickAnimal={props.clickAnimal}
+				>
+					{index}
+				</PetTile>
+			)
+		}
+	});
 
-
-	let tiles = pets.map( (pet, i) => {
-		return (
-			<PetTile 
-				key={i} 
-				size={w} 
-				image={pet.images[0]} 
-				space={space}
-			/>
-		)
-	} );
-
-	return <ScrollView contentContainerStyle={styles.container}>{tiles}</ScrollView>;
-
+	return (
+		<ScrollView 
+			contentContainerStyle={styles.container}
+		>
+			{tiles}
+		</ScrollView>
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		flexWrap: 'wrap',
+		flexWrap: 'wrap'
 	}
 })

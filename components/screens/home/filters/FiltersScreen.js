@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo';
 import { Logo } from '../../../shared/Logo.js';
 import { AnimalPicker } from './AnimalPicker.js';
 import { AgePicker } from './AgePicker.js';
+import { SizePicker }from './SizePicker.js';
 import { GenderPicker } from './GenderPicker.js';
 import { LocationInput } from '../LocationInput.js';
 
@@ -20,10 +21,7 @@ export default class FiltersScreen extends Component {
 			borderBottomWidth: 1,
 			borderColor: '#fff',
 			elevation: 0
-		},
-		headerRight: (
-			<Logo size={{width: 35, height: 35, marginRight: 20}} />
-		)
+		}
 	}
 
 	constructor(props) {
@@ -32,10 +30,12 @@ export default class FiltersScreen extends Component {
 		let { navigation } = this.props;
 
 		this.state = {
-			animal: 'Any',
+			animal: 'any',
 			animalIndex: 0,
 			age: 'Any',
 			ageIndex: 0,
+			size: 'Any',
+			sizeIndex: 0,
 			gender: 'none',
 			zipCode: navigation.getParam('zipCode', null),
 			zipCodeValid: true,
@@ -46,7 +46,6 @@ export default class FiltersScreen extends Component {
 
 	updateZipCode = (zipCode) => {
 		this.setState({zipCode});
-		this.validateZipCode();
 	}
 
 	validateZipCode = () => {
@@ -68,31 +67,40 @@ export default class FiltersScreen extends Component {
 		this.setState({ageIndex: index, age })
 	}
 
+	updateSize = (index, size) => {
+		this.setState({sizeIndex: index, size})
+	}
+
 	updateGender = (gender) => {
 		this.setState({ gender })
 	}
 
 	search = () => {
 
-		let { animal, age, gender, zipCode } = this.state;
+		let { animal, age, size, gender, zipCode } = this.state;
 
-		if (animal === 'any' || animal === 'other') {
+		if (animal === 'any' || animal === 'Any') {
 			animal = '';
 		}
 
-		if (age === 'Any') {
+		if (age === 'any' || age === 'Any') {
 			age = ''
+		}
+
+		if (size === 'any' || size === 'Any') {
+			size = '';
 		}
 
 		if (gender === 'none') {
 			gender = ''
 		}
 
-		if (this.state.zipCode) {
+		if (this.state.zipCodeValid) {
 			this.props.navigation.navigate('PetList', {
 				zipCode: zipCode || '',
 				animal: animal || '',
 				age: age || '',
+				size: size || '',
 				gender: gender || ''
 			})
 		}
@@ -109,7 +117,7 @@ export default class FiltersScreen extends Component {
       >
 				<View style={styles.container}>
 					<View style={{alignSelf: 'center', marginBottom: 24}}>
-						<LocationInput zipCode={this.state.zipCode} />
+						<LocationInput setzip={this.updateZipCode} submit={this.validateZipCode} zipCode={this.state.zipCode} />
 					</View>
 					<AnimalPicker 
 						selected={this.state.animalIndex} 
@@ -119,19 +127,16 @@ export default class FiltersScreen extends Component {
 						selected={this.state.ageIndex} 
 						update={this.updateAge} 
 					/>
+					<SizePicker
+						selected={this.state.sizeIndex}
+						update={this.updateSize}
+					/>
 					<GenderPicker
 						gender={this.state.gender}
 						select={this.updateGender}
 					/>
 				<View style={styles.buttonContainer}>
 					<Button
-					  rounded
-					  iconRight={{name: 'times-circle', type: 'font-awesome'}}
-					  textStyle={{fontWeight: "500"}}
-					  buttonStyle={styles.cancelButton}
-						title="CANCEL"					/>
-					<Button
-					  rounded
 					  iconRight={{name: 'search', color: '#23d69d'}}
 						textStyle={{color: "#23d69d", fontWeight: "500"}}
 					  buttonStyle={styles.searchButton}
@@ -158,14 +163,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-around', 
 	},
-	cancelButton: {
-		width: 150,
-		borderWidth: 1,
-		borderColor: '#fff',
-		backgroundColor: 'transparent',
-	},
 	searchButton: {
-		width: 150,
+		marginTop: 24,
+		width: 300,
 		backgroundColor: '#fff',
 	},
 })

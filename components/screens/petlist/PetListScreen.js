@@ -1,9 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { 
+  StyleSheet, 
+  View, 
+  Text, 
+  ActivityIndicator 
+} from 'react-native';
 import { StackNavigator } from 'react-navigation';
-
 import { url } from '../../../config.js';
-
 import { PetList } from './PetList.js';
 
 export default class PetListScreen extends React.Component {
@@ -12,11 +15,19 @@ export default class PetListScreen extends React.Component {
 
     const { params } = navigation.state;
 
+    let hTitle = '';
+
+    if (params.animal && params.animal != 'Any') {
+      hTitle = `${params.animal.charAt(0).toUpperCase() + params.animal.substring(1)}s in ${params.zipCode}`;
+    } else {
+      hTitle = `Pets in ${params.zipCode}`;
+    }
+
     return {
-      title: params ? `Pets in ${params.zipCode}` : 'Pet Search',
+      title: hTitle,
       headerTintColor: '#fff',
       headerStyle: {
-        backgroundColor: '#23d69d'
+        backgroundColor: '#56C3EB'
       }
     }
   }
@@ -24,7 +35,7 @@ export default class PetListScreen extends React.Component {
   constructor(props) {
     super(props);
     
-    this.state = {};
+    this.state = { loading: false };
   }
 
   componentDidMount = () => {
@@ -35,8 +46,12 @@ export default class PetListScreen extends React.Component {
         zipCode: navigation.getParam('zipCode', ''),
         animal:  navigation.getParam('animal', ''),
         age:     navigation.getParam('age', ''),
+        size:     navigation.getParam('size', ''),
         gender:  navigation.getParam('gender', ''),
     };
+
+    this.setState(data);
+    this.setState({ loading: true })
 
     fetch(`${url}/pet/find`, {
       method: 'post',
@@ -47,20 +62,49 @@ export default class PetListScreen extends React.Component {
       'Content-Type': 'application/json'
     }
     }).then( res => res.json() )
-      .then( res => this.setState( {pets: res} ) )
-      .catch( err => console.error( err ) );
+      .then( res => {
+        if (Array.isArray(res.pets)) {
+          this.setState({
+            pets: res.pets,
+            loading: false
+          })
+        } else {
+          this.setState({ 
+            error: 'No results found.',
+            loading: false
+          });
+        }
+      })
+      .catch( err => this.setState({ error: 'Network error. Please try again.', loading: false}));
+
   }
 
-  componentWillUnmount = () => {
-    this.setState({pet: null});
+  clickAnimal = (index) => {
+
+    this.props.navigation.navigate('PetInfo', {
+      selectedPet: this.state.pets[index]
+    })
+
   }
 
   render() {
 
     return (
       <View style={styles.container}>
+      { !!this.state.loading &&
+        <ActivityIndicator size="large" color="#56C3EB" />
+      }
       { !!this.state.pets &&
-        <PetList pets={ this.state.pets }></PetList>
+        <View>
+          <PetList 
+            pets={ this.state.pets }
+            clickAnimal={this.clickAnimal}
+          />
+
+        </View>
+      }
+      { !!this.state.error &&
+        <Text>{this.state.error}</Text>
       }
       </View>
     );
@@ -70,6 +114,7 @@ export default class PetListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    justifyContent: 'center'
   },
 });
